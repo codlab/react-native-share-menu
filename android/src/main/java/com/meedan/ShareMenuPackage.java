@@ -1,6 +1,7 @@
 package com.meedan;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import java.util.*;
 
@@ -13,6 +14,8 @@ import com.facebook.react.uimanager.ViewManager;
 import com.meedan.ShareMenuModule;
 
 public class ShareMenuPackage implements ReactPackage {
+  private ShareMenuModule module;
+
   public ShareMenuPackage() {
     super();
   }
@@ -20,12 +23,17 @@ public class ShareMenuPackage implements ReactPackage {
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
-    modules.add(new ShareMenuModule(reactContext));
+    module = new ShareMenuModule(reactContext);
+    modules.add(module);
     return modules;
   }
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
     return Collections.emptyList();
+  }
+
+  public void onNewIntent(Intent intent) {
+    if(null != module) module.onNewIntent(intent);
   }
 }
